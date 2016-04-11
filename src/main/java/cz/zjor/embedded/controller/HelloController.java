@@ -8,10 +8,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HelloController {
 
+//    @Inject
+//    private GreetService service;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public String index() {
         return "hello world";
     }
+
+//    @RequestMapping(value = "/greet", method = RequestMethod.GET)
+//    @ResponseBody
+//    public String greet(@RequestParam("name") String name) {
+//        return service.greet(name);
+//    }
 
 }

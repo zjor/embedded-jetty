@@ -5,7 +5,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SpringApp {
     public static void main(String[] args) {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("embedded-jetty.xml");
+        // greetService is not visible in the inner scope of dispatcher-context.xml
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("beans-context.xml", "embedded-jetty.xml");
 
     }
 }
