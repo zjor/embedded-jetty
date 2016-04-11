@@ -18,7 +18,7 @@ This embeddable combination will be further used for purposes like:
 
 # Next steps #
 
-1. Move jetty configuration to another spring context (to make it usable in existing spring applications)
+--1. Move jetty configuration to another spring context (to make it usable in existing spring applications)
 2. Check that outer scope (where jetty was configured) is accessible from the inner scope (e.i. it's possible to inject services to controllers)
 3. Check cookies handling
 4. Serve html/jsp

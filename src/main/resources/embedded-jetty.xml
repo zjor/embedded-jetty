@@ -3,4 +3,42 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="servletHolder" class="org.eclipse.jetty.servlet.ServletHolder">
+        <constructor-arg name="name" value="dispatcher"/>
+        <constructor-arg name="servlet" value="org.springframework.web.servlet.DispatcherServlet"/>
+        <property name="initParameters">
+            <map>
+                <entry key="contextConfigLocation" value="classpath:dispatcher-context.xml"/>
+            </map>
+        </property>
+        <property name="initOrder" value="0"/>
+    </bean>
+
+    <bean id="servletHandler" class="org.eclipse.jetty.servlet.ServletHandler">
+        <property name="servlets">
+            <array>
+                <ref bean="servletHolder"/>
+            </array>
+        </property>
+        <property name="servletMappings">
+            <list>
+                <bean class="org.eclipse.jetty.servlet.ServletMapping">
+                    <property name="servletName" value="dispatcher"/>
+                    <property name="pathSpec" value="/*"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="contextHandler" class="org.eclipse.jetty.servlet.ServletContextHandler">
+        <property name="contextPath" value="/spring"/>
+        <property name="servletHandler" ref="servletHandler"/>
+    </bean>
+
+
+    <bean class="org.eclipse.jetty.server.Server" init-method="start" destroy-method="stop">
+        <constructor-arg name="port" value="9999"/>
+        <property name="handler" ref="contextHandler"/>
+    </bean>
+
 </beans>

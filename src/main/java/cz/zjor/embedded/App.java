@@ -1,10 +1,8 @@
 package cz.zjor.embedded;
 
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.DefaultHandler;
-import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -16,13 +14,17 @@ public class App {
         holder.setInitParameter("contextConfigLocation", "classpath:dispatcher-context.xml");
         holder.setInitOrder(0);
 
+
+        ServletHandler s = new ServletHandler();
+        s.addServletWithMapping(holder, "/*");
+
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/spring");
-        context.addServlet(holder, "/*");
+        context.setServletHandler(s);
 
-        HandlerCollection handlers = new HandlerCollection();
-        handlers.setHandlers(new Handler[]{context, new DefaultHandler()});
-        server.setHandler(handlers);
+//        HandlerCollection handlers = new HandlerCollection();
+//        handlers.setHandlers(new Handler[]{context, new DefaultHandler()});
+        server.setHandler(context);
 
         server.start();
         server.join();
